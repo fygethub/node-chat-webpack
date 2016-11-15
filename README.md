@@ -15,7 +15,7 @@
 
 > 1. npm install 
 
-> 2. 在一个命令窗口中启动 node index 开启node 服务
+> 2. 在一个命令窗口中启动 node index 开启node 服务  
 
 > 3. 重新打开一个窗口 webpack-dev-server 启动本地服务
 
