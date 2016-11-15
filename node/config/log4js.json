@@ -1,0 +1,29 @@
+{
+    "appenders": [{
+        "type": "console"
+    }, {
+        "level": "INFO",
+        "type": "logLevelFilter",
+        "appender": {
+            "type": "dateFile",
+            "filename": "./node/logs/info.log",
+            "pattern": "-yyyy-MM-dd"
+        }
+    }, {
+        "level": "DEBUG",
+        "type": "logLevelFilter",
+        "appender": {
+            "type": "dateFile",
+            "filename": "./node/logs/debug.log",
+            "pattern": "-yyyy-MM-dd"
+        }
+    }, {
+        "level": "ERROR",
+        "type": "logLevelFilter",
+        "appender": {
+            "type": "dateFile",
+            "filename": "./node/logs/error.log",
+            "pattern": "-yyyy-MM-dd"
+        }
+    }]
+}
