@@ -4,9 +4,9 @@ require('../../view/home.html');
 for(var i = 1; i< 69; i++){
 	require('../../imgs/emoji/'+ i +'.gif');
 }
- 
+let COLOR = '';
 /*调整页面 */
-//$('.login').remove();
+$('.login').remove();
 //var socket = require('socket.io-client')('http://fydor.iok.la/');
 var socket = require('socket.io-client')('http://localhost:3000/');
 let USER = '';
@@ -141,16 +141,23 @@ function append_other_msg(msg){
 							<div class="minihead" >\
 								<img src="/dist/imgs/emoji/headportrait.jpg">\
 							</div>\
-							<p class="ctx"><span style="color:red;">${msg.user}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">(${msg.time})</span><br> ${msg.msg}</p>\
+							<p class="ctx"><span style="color:red;">${msg.user}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">(${msg.time})</span><br> <span style="color:${msg.color}">${msg.msg}</span></p>\
 						</li>`);
 	$('.content').scrollTop($('.content')[0].scrollHeight + 30);
 }
 
+/*获取字体的颜色值*/
+getFontColor(); 
+function getFontColor(){
+	$('.color').on('change',function(){
+		COLOR = $(this).val();
+	});
+}
 
 /*点击发送 */
 function send_msg(){
 	//点击发送 
-	$('#m').val().trim() == '' || socket.emit('chat messages',{'msg':$('#m').val(),'user' : USER});
+	$('#m').val().trim() == '' || socket.emit('chat messages',{'msg':$('#m').val(),'user' : USER,color:COLOR});
 	
 	return false; 
 }
