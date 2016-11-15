@@ -160,8 +160,8 @@ header {
   color: black;
   display: flex;
   font-size: 40px;
-  -webkit-text-stroke: 1px #e1e1e1;
-  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px #815328;
+  -webkit-text-fill-color: #1e1c1c;
   justify-content: center;
   align-items: center;
   background-color: #666;
@@ -170,12 +170,11 @@ header {
 header .header {
   height: 60px;
   text-align: center;
-  background: linear-gradient(to bottom, #54847E, #7C5757);
+  background-color: #fff;
 }
 header .header:before {
   content: '';
   display: block;
-  border-radius: 15px;
   border-top: 30px solid #fff;
   border-left: 30px solid #666;
   border-bottom: 30px solid #fff;
@@ -186,7 +185,6 @@ header .header:after {
   content: '';
   display: block;
   float: right;
-  border-radius: 15px;
   border-top: 30px solid #fff;
   border-right: 30px solid #666;
   border-bottom: 30px solid #fff;
@@ -328,6 +326,7 @@ header .header:after {
   white-space: pre-wrap;
   word-wrap: break-word;
   position: relative;
+  box-shadow: 0 1px 4px #666;
 }
 #container #aside-right .aside-top .content .other-talk .ctx:before {
   content: " ";
@@ -337,7 +336,7 @@ header .header:after {
   border-top: 10px solid transparent;
   border-left: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid #fff;
+  border-right: 10px solid #f5d2d2;
   margin-left: -20px;
   position: absolute;
   transform: translateY(50%);
@@ -368,6 +367,7 @@ header .header:after {
   white-space: pre-wrap;
   word-wrap: break-word;
   background-color: #fff;
+  box-shadow: 0 1px 4px #666;
 }
 #container #aside-right .aside-top .content .my-talk .ctx:after {
   content: " ";
@@ -375,7 +375,7 @@ header .header:after {
   width: 0px;
   height: 0px;
   border-top: 10px solid transparent;
-  border-left: 10px solid #fff;
+  border-left: 10px solid #f5d2d2;
   border-bottom: 10px solid transparent;
   border-right: 10px solid transparent;
   right: -20px;
@@ -387,18 +387,46 @@ header .header:after {
   flex: 1;
   display: flex;
   min-width: 100px;
-  border-left: 1px solid #1E94EF;
   flex-direction: column;
 }
 #container #aside-right .aside-top .show-person h3 {
   height: 30px;
   line-height: 30px;
   text-align: center;
+  background-color: #000;
+  position: relative;
+  min-width: 70px;
+  color: #fff;
+  overflow: visible;
+  z-index: 1;
+  margin-bottom: 10px;
+}
+#container #aside-right .aside-top .show-person h3:before {
+  content: " ";
+  position: absolute;
+  box-shadow: 0 2px 15px #000;
+  top: 30%;
+  left: 5%;
+  bottom: 20%;
+  width: 50%;
+  transform: rotate(-5deg);
+  z-index: -1;
+}
+#container #aside-right .aside-top .show-person h3:after {
+  z-index: -1;
+  content: " ";
+  position: absolute;
+  box-shadow: 0 1px 15px #000;
+  top: 30%;
+  right: 5%;
+  bottom: 20%;
+  width: 50%;
+  transform: rotate(5deg);
 }
 #container #aside-right .aside-top .show-person .online-persons {
   flex-grow: 9;
-  overflow-y: scroll;
-  background-color: #66ECF6;
+  overflow-y: auto;
+  background-color: #fafafa;
 }
 #container #aside-right .aside-top .show-person .online-persons .ps:hover {
   background-color: whitesmoke;
@@ -449,15 +477,6 @@ header .header:after {
   background-color: gray;
   position: relative;
 }
-#container #aside-right .form .toolbar .emoji-btn {
-  border: 0;
-  background-color: #66F02A;
-  margin-left: 20px;
-  cursor: pointer;
-}
-#container #aside-right .form .toolbar .emoji-btn:hover {
-  background-color: orange;
-}
 #container #aside-right .form .toolbar .emoji {
   display: none;
   width: 80%;
@@ -467,6 +486,7 @@ header .header:after {
   box-shadow: 0 0 5px black;
   height: 200px;
   overflow: auto;
+  margin-left: 10px;
 }
 #container #aside-right .form .toolbar .emoji img {
   padding: 1px;
@@ -477,12 +497,25 @@ header .header:after {
   border: 1px solid #1E94EF;
   padding: 0;
 }
-#container #aside-right .form .toolbar ul {
-  display: flex;
-  align-items: center;
-}
 #container #aside-right .form .toolbar ul li {
-  position: relative;
+  float: left;
+  width: 20%;
+  min-width: 80px;
+  height: 40px;
+  margin-top: 15px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-left: 20px;
+}
+#container #aside-right .form .toolbar ul li input {
+  background: linear-gradient(to bottom, #fff, whitesmoke);
+  width: 100%;
+  height: 100%;
+  border: 0;
+  cursor: pointer;
+}
+#container #aside-right .form .toolbar ul .emoji-btn:hover {
+  background-image: linear-gradient(to bottom, whitesmoke, #e1e1e1);
 }
 #container #aside-right .form .ipt {
   width: 100%;
