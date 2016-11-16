@@ -5,10 +5,10 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-	//devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
+	devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
 	entry:{
 		home: [/*'webpack/hot/dev-server','webpack-dev-server/client?http://localhost:9090',*/'./src/js/page/home.js'],
-		jquery: ['jquery'] //第三方库
+		jquery: ['jquery']
 	},
 	output: {
 		path: path.resolve(__dirname,'dist'),
@@ -48,14 +48,8 @@ module.exports = {
 			}
 		]
 	},resolve: {
-		extensions: ['','.js','.css','.scss','.less'],
-		/*alias: {
-            jquery: "jquery/src/jquery"
-        }*/
+		extensions: ['','.js','.css','.scss','.less']
 	},
-   /* externals:{
-        '$':'Jquery',
-    },*/
 	plugins: [
 		new webpack.ProvidePlugin({
 			$ : 'jquery',
@@ -76,19 +70,19 @@ module.exports = {
 			cache:false,
 			chunks:['home','jquery'],
 			minify:{
-				removeComments:false,
-				collapseWhitespace:false
+				removeComments:true,
+				collapseWhitespace:true
 			}
 		}),
-		//new webpack.HotModuleReplacementPlugin() //热加载
+		new webpack.HotModuleReplacementPlugin() //热加载
 	],
 	//使用webpack-dev-server，提高开发效率
-	/*devServer: {
+	devServer: {
 		contentBase: './dist',
 		host: 'localhost',
 		port: 8080,
 		inline: true,
 		hot: true,
 		stats: {colors:true}
-	}*/
+	}
 }

@@ -1,15 +1,25 @@
 require('../../css/reset.css');
 require('../../css/home.less');
 require('../../view/home.html');
+
 for(var i = 1; i< 69; i++){
-	require('../../imgs/emoji/'+ i +'.gif');
+		require('../../imgs/emoji/'+ i +'.gif');
+	if(i <= 6){
+		require('../../imgs/header/'+ i + '.jpg');
+	}
 }
+
+
+$(function(){
+
+
 let COLOR = '';
 /*调整页面 */
-$('.login').remove();
+//$('.login').remove();
 //var socket = require('socket.io-client')('http://fydor.iok.la/');
 var socket = require('socket.io-client')('http://localhost:3000/');
 let USER = '';
+let HEADER = Math.ceil(Math.random()*5);
 var connected = false;
 // setInterval(function(){
 // 	get_time();
@@ -36,7 +46,7 @@ $.loginFun = function(){
 			$(".title").text('名字已存在,换个吧');
 		}else{
 			//发送添加用户信息
-			socket.emit('add user',username);
+			socket.emit('add user',{username:username,hpic:HEADER});
 			USER = username;
 			$(".header").html(`欢迎${username}来到聊天室`);
 			$('.login').css({"transform":"translateY(-100%)","transition":'.5s'});
@@ -100,17 +110,16 @@ socket.on('login',function(data){
 	//添加在线人数
 	console.log(data);
 	for(var i = 0,len = data.Users.length; i< len ; i++){
-		addOnlinePerson( data.Users[i].username,data.numUsers);
+		addOnlinePerson( data.Users[i].username,data.numUsers, data.Users[i].hpic);
 	}
 	
 })
 
 /*监听用户加入的信息*/
-socket.on('user joined',({username,numUsers})=>{
+socket.on('user joined',({username,numUsers,hpic})=>{
 	var message =`${username} 用户加入聊天室`;
-	
 	//添加在线人数
-	addOnlinePerson(username,numUsers);
+	addOnlinePerson(username,numUsers,hpic);
 	//添加系统信息
 	addSystemMsg(message);
 });
@@ -125,7 +134,7 @@ socket.on('user left',({username,numUsers,Users}) =>{
 	$('.online-persons').html('');
 	//添加在线人数
 	for(var i = 0,len = Users.length; i< len ; i++){
-		addOnlinePerson( Users[i].username,numUsers);
+		addOnlinePerson( Users[i].username,numUsers, Users[i].hpic);
 	}
 })
 
@@ -139,7 +148,7 @@ function append_other_msg(msg){
 	
 	$(".talk").append(`<li class="${s}">\
 							<div class="minihead" >\
-								<img src="/dist/imgs/emoji/headportrait.jpg">\
+								<img src="/dist/imgs/emoji/${msg.hpic}.jpg">\
 							</div>\
 							<p class="ctx"><span style="color:red;">${msg.user}</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:gray">(${msg.time})</span><br> <span style="color:${msg.color}">${msg.msg}</span></p>\
 						</li>`);
@@ -171,9 +180,9 @@ function get_time(){
 
 
 /*添加在线人数*/
-function addOnlinePerson(username,numUsers){
+function addOnlinePerson(username,numUsers,hpic){
 	var msg = `<li class="ps">
-					<img src="/dist/imgs/emoji/headportrait.jpg" alt="">
+					<img src="/dist/imgs/emoji/${hpic}.jpg" alt="">
 					<span class="nick">${username}</span>
 				</li>`
 	$(".show-person").find('h3').text(`当前在线${numUsers}人`);
@@ -181,12 +190,12 @@ function addOnlinePerson(username,numUsers){
 }
 
 
-/*添加 系统信息*/
+/*添加 系统信息8*/
 function addSystemMsg(message){
 	$(".talk").append(`<li class="time">${message}</li>`);
 }
  
-/*添加表情 并绑定点击事件*/
+/*添加表情 并绑定点击事件.*/
 add_emoji();
 function add_emoji(){
 	var docFragment = document.createDocumentFragment();
@@ -205,6 +214,7 @@ tarigger();
 function tarigger(){
 	$('.emoji-btn').click(function(){
 		$('.emoji').fadeToggle();
+		
 		return false;
 	})
 
@@ -225,3 +235,5 @@ function trun_img(){
 		}
 	})
 }
+
+})

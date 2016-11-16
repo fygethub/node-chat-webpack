@@ -1,0 +1,15 @@
+{
+  "appenders": [
+  	{"type": "console", "category": "console"}, 
+    { 
+    	"type": "dateFile", 
+    	"filename": "logs/index.log", 
+    	"category": "cheese",
+    	"pattern": "debug/yyyyMMddhh.txt",  
+    	"absolute": true,                   
+    	"alwaysIncludePattern": false,     
+    	"category": "logInfo"               
+    }
+  ],
+  "levels":{ "logInfo": "DEBUG"}        
+}

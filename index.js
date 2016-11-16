@@ -34,15 +34,21 @@ io.on('connection', function(socket) {
     logger.info("用户连接成功")
 
     //监听客户端添加用户的时候
-    socket.on('add user', function(username) {
-        if (addedUser) return; 
-        logger.info("添加用户", username)
+    socket.on('add user', function(usermsg) {
+        var username = usermsg.username,
+            hpic = usermsg.hpic;
+        if (addedUser) return;
+        logger.info("添加用户", username, hpic)
+
         addedUser = true;
         var user = {};
         user.username = username;
+        user.hpic = hpic;
         Users.push(user);
+        logger.info("当前在线用户",Users)
         //储存用户在socket上
         socket.username = username;
+        socket.hpic = hpic;
         ++numUsers;
         socket.emit('login', {
             numUsers: numUsers,
@@ -52,22 +58,25 @@ io.on('connection', function(socket) {
         //向其他用户广播 socket.broadcast.emit() 向其他socket 发送数据出去当前socket
         socket.broadcast.emit('user joined', {
             username: socket.username,
-            numUsers: numUsers
+            numUsers: numUsers,
+            hpic :hpic
         })
     })
 
     //返回聊天信息
     socket.on('chat messages', msg => {
-        logger.info("返回聊天信息");
         msg.time = new Date().toLocaleString();
+        msg.hpic = socket.hpic;
+        logger.info("返回聊天信息", msg);
         io.emit('chat message', msg);
     })
 
     socket.on('disconnect', function() {
-        logger.info("用户退出");
+        logger.info("用户退出", socket.username);
         if (addedUser) {
             --numUsers;
             del_user(socket.username);
+            logger.info("用户退出,剩余用户",Users);
             //广播用户离开了
             socket.broadcast.emit('user left', {
                 username: socket.username,
@@ -83,6 +92,7 @@ function del_user(username) {
     Users = Users.filter(function(item) {
         return item.username != username;
     })
+   
 }
 /*判断是否用户名已存在*/
 function isExit(username) {
@@ -106,6 +116,7 @@ app.get('/get_time', function(req, res) {
 app.get('/isExit', function(req, res) {
     //获取前台数据
     var name = req.query.username;
+    logger.info("判断用户是否存在", name);
     res.json({
         isExit: isExit(name)
     });
