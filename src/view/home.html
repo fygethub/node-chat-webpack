@@ -7,9 +7,9 @@
 	<title>fydor chat</title>
 </head>
 <body>
-	<div class="login"">
+	<div class="login">
       <div class="form">
-        <h3 class="title">为自己取个名字吧!~</h3>
+        <h3 class="title">为自己取个名字吧!~~~~~</h3>
         <input class="usernameInput" type="text" maxlength="14" />
     	<div class="comfirm">确定</div>
       </div>
@@ -53,6 +53,7 @@
 				</div>
 				<div class="show-person">
 					<h3>当前在线人</h3>
+					<img data-src="../imgs/headportrait.jpg" alt="">
 					<ul class="online-persons">
 						<!-- <li class="ps">
 								<img src="../imgs/headportrait.jpg" alt="">
@@ -78,10 +79,31 @@
 				</div>
 				<div class="ipt">
 					<textarea placeholder="输入发送内容" id="m"></textarea>
-					<span class="submit">发送</span>
+					<span class="submit" style="background:#fafafa">发送1</span>
 				</div>
 			</div>
 		</aside>
 	</div>
 </body>
 </html>
+
+
+#!/bin/sh
+
+git filter-branch --env-filter '
+
+OLD_EMAIL="1015611364@qq.com"
+CORRECT_NAME="fygethub"
+CORRECT_EMAIL="fydor@foxmail.com"
+
+if [ "$GIT_COMMITTER_EMAIL" = "$OLD_EMAIL" ]
+then
+export GIT_COMMITTER_NAME="$CORRECT_NAME"
+export GIT_COMMITTER_EMAIL="$CORRECT_EMAIL"
+fi
+if [ "$GIT_AUTHOR_EMAIL" = "$OLD_EMAIL" ]
+then
+export GIT_AUTHOR_NAME="$CORRECT_NAME"
+export GIT_AUTHOR_EMAIL="$CORRECT_EMAIL"
+fi
+' --tag-name-filter cat -- --branches --tags

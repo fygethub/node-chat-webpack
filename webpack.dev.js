@@ -4,10 +4,12 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
+console.log('webpack -dev -server');
 module.exports = {
 	devtool: 'eval-source-map',//配置生成Source Maps，选择合适的选项
 	entry:{
-		home: [/*'webpack/hot/dev-server','webpack-dev-server/client?http://localhost:9090',*/'./src/js/page/home.js'],
+		home: ['./src/js/page/home.js'],
 		jquery: ['jquery']
 	},
 	output: {
@@ -63,7 +65,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			favicon:'./src/imgs/favicon.ico',
 			//输出的路径
-			filename:'/view/home.html',
+			filename:'./view/home.html',
 			template: './src/view/home.html',
 			inject:'body',
 			hash:false,
@@ -83,6 +85,12 @@ module.exports = {
 		port: 8080,
 		inline: true,
 		hot: true,
-		stats: {colors:true}
+		stats: {colors:true},
+		proxy:{
+			'/isExit':{
+				target:'http://localhost:3000/isExit',
+				secure:false
+			}
+		}
 	}
 }

@@ -1,16 +1,43 @@
-var express = require('express');
+let express = require('express');
 app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var logger = require('./node/service/logger')("index");
+let http = require('http').Server(app);
+let io = require('socket.io')(http);
+
+let webpack = require('webpack');
+let config = require('./webpack.dev');
+let compiler = webpack(config);
+let logger = require('./node/service/logger')("index");
 //也可以直接require
-console.log(require('./node/service/logger'))
-var path = require('path');
-var numUsers = 0;
-var Users = [];
+require('./node/service/logger');
+let path = require('path');
+let numUsers = 0;
+let Users = [];
+var cdr = require("child_process")
+var webpackDevOptions = {
+    noInfo: false,
+    historyApiFallback: true,
+    publicPath: config.output.publicPath,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+    }
+
+}
+
+
+
+//var httpProxy = require('http-proxy');
+//httpProxy.createProxyServer({target:'http://localhost:3000'}).listen(8080);
+
+
+
+
+
 
 //提供静态文件服务，这样就能找到你的`js`文件
 app.use(express.static(__dirname));
+app.use(require('webpack-dev-middleware')(compiler,webpackDevOptions));
+app.use(require('webpack-hot-middleware')(compiler));
+//app.use(require('webpack-dev-server')(compiler,config.devServer));
 
 app.all('*', function(req, res, next) {
     logger.info("通过设置头信息,同意跨域访问")
@@ -121,6 +148,7 @@ app.get('/isExit', function(req, res) {
         isExit: isExit(name)
     });
 })
+cdr.exec("start http://localhost:3000");
 http.listen(3000, function() {
-    console.log('listening on * :3000')
+    console.log('listening on * :3000');
 })

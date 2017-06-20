@@ -1,6 +1,6 @@
 require('../../css/reset.css');
 require('../../css/home.less');
-require('../../view/home.html');
+//require('../../view/home.html');
 for (var i = 1; i < 69; i++) {
     require('../../imgs/emoji/' + i + '.gif');
     if (i <= 6) {
@@ -39,7 +39,7 @@ $(function() {
     $.loginFun = function() {
         var username = $('.usernameInput').val().trim();
         if (username == '') return;
-        $.get('http://localhost:3000/isExit', { username: username }, function(data) {
+        $.get('/isExit', { username: username }, function(data) {
             console.log(data);
             if (data.isExit) {
                 $(".title").text('名字已存在,换个吧');
@@ -176,7 +176,7 @@ $(function() {
 
     /* 添加时间戳 */
     function get_time() {
-        $.get('http://localhost:3000/get_time', ({ time }) => {
+        $.get('/get_time', ({ time }) => {
             addSystemMsg(time);
         })
     }
